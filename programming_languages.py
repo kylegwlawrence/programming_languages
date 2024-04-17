@@ -5,30 +5,6 @@ import pandas as pd
 import bs4 as bs
 import time
 
-def find_link(page_links, link_name):
-    for term in page_links:
-        if term==link_name:
-            print(f'Index: {page.links.index(link_name)}\nLink name: {link_name}')
-
-def get_wiki_table(url) -> pd.DataFrame:
-    try:
-        response = requests.get(url)
-    except:
-        print('Error accessing Wikipedia table')
-    """Take in a response object from extract_sp500_tickers and parse to a dataframe
-    :params response: takes in <class 'requests.models.Response'>
-    :return: DataFrame of tickers from the Wiki table
-    """
-    soup = bs.BeautifulSoup(response.text, 'xml')
-    table = soup.find('table', {'class': 'wikitable sortable'})
-    list_results = []
-    for row in table.findAll('tr')[1:]:
-        r = row.findAll('td')[0].text
-        list_results.append(r)
-    df = pd.DataFrame({'ticker': list_results})
-    df = df.replace(r'\n','', regex=True) 
-    return df
-
 def table_from_html(page_name, table_index):
     html = wp.page(page_name).html()#.encode("UTF-8")
     try: 
